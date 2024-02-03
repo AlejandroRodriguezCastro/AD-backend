@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 const routes = require('./routes');
+const {dbConnection} = require('./db/config');
 
 const app = express();
 
@@ -23,12 +24,13 @@ app.use(express.urlencoded({ extended: true }));
 app.options('*', cors());
 app.use(cors());
 
-// Routes
+// DB connection
+dbConnection();
 
+// Routes
 app.use('/api', routes);
 
 // App init
-
 app.listen(process.env.PORT, () => {
     console.log(`Server running on port ${process.env.PORT}`);
 });
