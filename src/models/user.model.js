@@ -17,9 +17,18 @@ const userSchema = new mongoose.Schema(
             minlength: 12,
         },
         recipe: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: [mongoose.Schema.Types.ObjectId],
             required: true,
             ref: 'Recipe',
+        },
+        favorite: {
+            type: [mongoose.Schema.Types.ObjectId],
+            required: true,
+            ref: 'Recipe',
+        },
+        avatar: {
+            type: String,
+            required: false,
         },
     },
     {

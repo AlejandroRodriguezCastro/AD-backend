@@ -11,11 +11,12 @@ const recipeSchema = new mongoose.Schema(
             required: true,
         },
         ingredients: {
-            type: String,
+            type: [mongoose.Schema.Types.ObjectId],
             required: true,
+            ref: 'Ingredient',
         },
         instructions: {
-            type: String,
+            type: [String],
             required: true,
         },
         user: {
@@ -24,9 +25,8 @@ const recipeSchema = new mongoose.Schema(
             ref: 'User',
         },
         photo: {
-            type: mongoose.Schema.Types.ObjectId,
-            required: true,
-            ref: 'Photo',
+            type: [String],
+            required: false
         },
         requiredTime: {
             type: Number,
