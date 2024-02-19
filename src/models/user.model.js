@@ -18,12 +18,12 @@ const userSchema = new mongoose.Schema(
         },
         recipe: {
             type: [mongoose.Schema.Types.ObjectId],
-            required: true,
+            required: false,
             ref: 'Recipe',
         },
         favorite: {
             type: [mongoose.Schema.Types.ObjectId],
-            required: true,
+            required: false,
             ref: 'Recipe',
         },
         avatar: {

@@ -1,4 +1,5 @@
 const Recipe = require('../models/recipe.model');
+const Ingredient = require('../models/ingredient.model');
 
 class RecipeService {
     async getRecipes() {
@@ -24,6 +25,11 @@ class RecipeService {
 
     async createRecipe(recipe) {
         try {
+            recipe.ingredients = await Promise.all(recipe.ingredients.map(async ingredient => {
+                let newIngredient = new Ingredient(ingredient);
+                await newIngredient.save();
+                return newIngredient;
+            }));
             let newRecipe = new Recipe(recipe);
             await newRecipe.save();
             return newRecipe;

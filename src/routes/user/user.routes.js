@@ -10,7 +10,7 @@ router.get('/:id', UserController.getUserById);
 
 router.post('/',
     [
-        check('name', 'El nombre es requerido').not().isEmpty(),
+        check('username', 'El nombre es requerido').not().isEmpty(),
         check('email', 'El email es requerido').not().isEmpty(),
         check('password', 'La contraseña es requerida').not().isEmpty(),
         checkFields
@@ -19,7 +19,7 @@ router.post('/',
 
 router.put('/:id',
     [
-        check('name', 'El nombre es requerido').not().isEmpty(),
+        check('username', 'El nombre es requerido').not().isEmpty(),
         check('email', 'El email es requerido').not().isEmpty(),
         check('password', 'La contraseña es requerida').not().isEmpty(),
         checkFields

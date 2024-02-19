@@ -10,18 +10,18 @@ router.get('/:id', RecipeController.getRecipeById);
 
 router.post('/',
     [
-        check('name', 'El nombre es requerido').not().isEmpty(),
+        check('title', 'El nombre es requerido').not().isEmpty(),
         check('ingredients', 'Los ingredientes son requeridos').not().isEmpty(),
-        check('preparation', 'La preparación es requerida').not().isEmpty(),
+        check('instructions', 'La preparación es requerida').not().isEmpty(),
         checkFields
     ],
     RecipeController.createRecipe);
 
 router.put('/:id',
     [
-        check('name', 'El nombre es requerido').not().isEmpty(),
+        check('title', 'El nombre es requerido').not().isEmpty(),
         check('ingredients', 'Los ingredientes son requeridos').not().isEmpty(),
-        check('preparation', 'La preparación es requerida').not().isEmpty(),
+        check('instructions', 'La preparación es requerida').not().isEmpty(),
         checkFields
     ],
     RecipeController.updateRecipe);
@@ -30,9 +30,9 @@ router.delete('/:id', RecipeController.deleteRecipe);
 
 router.patch('/:id',
     [
-        check('name', 'El nombre es requerido').not().isEmpty(),
+        check('title', 'El nombre es requerido').not().isEmpty(),
         check('ingredients', 'Los ingredientes son requeridos').not().isEmpty(),
-        check('preparation', 'La preparación es requerida').not().isEmpty(),
+        check('instructions', 'La preparación es requerida').not().isEmpty(),
         checkFields
     ],
     RecipeController.patchRecipe);
