@@ -4,7 +4,7 @@ const Ingredient = require('../models/ingredient.model');
 class RecipeService {
     async getRecipes() {
         try {
-            const recipes = await Recipe.find();
+            const recipes = await Recipe.find().populate('ingredients', 'name quantity');
             return recipes;
         } catch (err) {
             console.error(err);
@@ -14,7 +14,6 @@ class RecipeService {
 
     async getRecipeById(id) {
         try {
-            // get ingredients of the specific recipe, search them in the db and return them as quantity and name
             const recipe = await Recipe.findById(id).populate('ingredients', 'name quantity');
             return recipe;
         }
@@ -42,7 +41,21 @@ class RecipeService {
 
     async updateRecipe(id, recipe) {
         try {
-            let updatedRecipe = await Recipe.findByIdAndUpdate(id, recipe, { new: true });
+            recipe.ingredients = await Promise.all(recipe.ingredients.map(async ingredient => {
+                if (ingredient._id) {
+                    await Ingredient.findByIdAndUpdate(ingredient._id, ingredient);
+                    return ingredient;
+                } else {
+                    let newIngredient = new Ingredient(ingredient);
+                    await newIngredient.save();
+                    return newIngredient;
+                }
+            }));
+            let updatedRecipe = await Recipe.findByIdAndUpdate(
+                id,
+                { $set: recipe },
+                { new: true, useFindAndModify: false }
+            );
             return updatedRecipe;
         }
         catch (err) {
@@ -63,12 +76,22 @@ class RecipeService {
 
     async patchRecipe(id, recipe) {
         try {
-            let patchedRecipe = await Recipe.findByIdAndUpdate(
+            recipe.ingredients = await Promise.all(recipe.ingredients.map(async ingredient => {
+                if (ingredient._id) {
+                    await Ingredient.findByIdAndUpdate(ingredient._id, ingredient);
+                    return ingredient;
+                } else {
+                    let newIngredient = new Ingredient(ingredient);
+                    await newIngredient.save();
+                    return newIngredient;
+                }
+            }));
+            let updatedRecipe = await Recipe.findByIdAndUpdate(
                 id,
                 { $set: recipe },
                 { new: true, useFindAndModify: false }
             );
-            return patchedRecipe;
+            return updatedRecipe;
         } catch (err) {
             console.error(err);
             throw new Error('Error al actualizar la receta');
