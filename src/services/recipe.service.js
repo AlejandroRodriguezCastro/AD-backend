@@ -14,7 +14,8 @@ class RecipeService {
 
     async getRecipeById(id) {
         try {
-            let recipe = await Recipe.findById(id);
+            // get ingredients of the specific recipe, search them in the db and return them as quantity and name
+            const recipe = await Recipe.findById(id).populate('ingredients', 'name quantity');
             return recipe;
         }
         catch (err) {
