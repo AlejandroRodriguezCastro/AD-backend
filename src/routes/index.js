@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const statusRoute = require('./status/status.routes');
 const likeRoute = require('./likes/like.routes');
-const recipeRoute = require('./recipes/recipe.routes');
-const userRoute = require('./users/user.routes');
+const recipeRoute = require('./recipe/recipe.routes');
+const userRoute = require('./user/user.routes');
 
 const defaultRoutes = [
     {

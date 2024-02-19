@@ -1,6 +1,6 @@
 const RecipeService = require('../services/recipe.service');
 
-const RecipeController = {
+class RecipeController {
     async getRecipes(req, res) {
         try {
             const recipes = await RecipeService.getRecipes();
@@ -8,7 +8,7 @@ const RecipeController = {
         } catch (err) {
             console.log(err);
         }
-    },
+    }
 
     async getRecipeById(req, res) {
         try {
@@ -17,7 +17,7 @@ const RecipeController = {
         } catch (err) {
             console.log(err);
         }
-    },
+    }
 
     async createRecipe(req, res) {
         try {
@@ -26,7 +26,7 @@ const RecipeController = {
         } catch (err) {
             console.log(err);
         }
-    },
+    }
 
     async updateRecipe(req, res) {
         try {
@@ -35,7 +35,7 @@ const RecipeController = {
         } catch (err) {
             console.log(err);
         }
-    },
+    }
 
     async deleteRecipe(req, res) {
         try {
@@ -44,7 +44,7 @@ const RecipeController = {
         } catch (err) {
             console.log(err);
         }
-    },
+    }
 
     async patchRecipe(req, res) {
         try {

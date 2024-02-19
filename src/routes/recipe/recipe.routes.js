@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const RecipeController = require('../../controllers/recipe.controller');
 const checkFields = require('../../middlewares/validateFields');
+const { check } = require('express-validator');
 
 router.get('/', RecipeController.getRecipes);
 
