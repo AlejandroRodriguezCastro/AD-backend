@@ -36,7 +36,7 @@ const recipeSchema = new mongoose.Schema(
             type: Number,
             required: true,
         },
-        hastag: {
+        hashtag: {
             type: String,
             required: true,
         },
@@ -49,6 +49,10 @@ const recipeSchema = new mongoose.Schema(
             required: true,
         },
         protein: {
+            type: Number,
+            required: true,
+        },
+        sodium: {
             type: Number,
             required: true,
         },
