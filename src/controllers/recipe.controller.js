@@ -19,6 +19,15 @@ class RecipeController {
         }
     }
 
+    async getRecipeByUser(req, res) {
+        try {
+            const recipe = await RecipeService.getRecipeByUser(req.params.id);
+            return res.status(200).json(recipe);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     async createRecipe(req, res) {
         try {
             const recipe = await RecipeService.createRecipe(req.body);

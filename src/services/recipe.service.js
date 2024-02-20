@@ -22,6 +22,17 @@ class RecipeService {
             throw new Error('Error al obtener la receta');
         }
     }
+    
+    async getRecipeByUser(id) {
+        try {
+            const recipe = await Recipe.find({user: id}).populate('ingredients', 'name quantity');
+            return recipe;
+        }
+        catch (err) {
+            console.error(err);
+            throw new Error('Error al obtener la receta');
+        }
+    }
 
     async createRecipe(recipe) {
         try {

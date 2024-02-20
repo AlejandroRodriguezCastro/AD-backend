@@ -8,6 +8,8 @@ router.get('/', RecipeController.getRecipes);
 
 router.get('/:id', RecipeController.getRecipeById);
 
+router.get('/user/:id', RecipeController.getRecipeByUser);
+
 router.post('/',
     [
         check('title', 'El nombre es requerido').not().isEmpty(),

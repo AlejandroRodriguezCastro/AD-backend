@@ -36,8 +36,8 @@ const recipeSchema = new mongoose.Schema(
             type: Number,
             required: true,
         },
-        hashtag: {
-            type: String,
+        category: {
+            type: [String],
             required: true,
         },
         calorie: {
