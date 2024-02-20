@@ -23,6 +23,67 @@ class UserService{
         }
     }
 
+    async updateUser(id, user){
+        try {
+            let updated = await User.findByIdAndUpdate(id, user, {new: true});
+            return updated;
+        }
+        catch (err) {
+            console.error(err);
+            throw new Error('Error al actualizar el usuario');
+        }
+    }
+
+    async deleteUserFavoriteRecipe(id, recipe){
+        try {
+            let user = await User.findById(id);
+            let favoriteRecipes = user.favorite;
+            let isFavorite = favoriteRecipes.includes(recipe);
+            if(!isFavorite){
+                throw new Error('La receta no se encuentra en favoritos');
+            }
+            user.favorite.pop(recipe);
+            await user.save();
+            return user;
+        }
+        catch (err) {
+            console.error(err);
+            throw new Error('Error al actualizar al agregar receta al favorito del usuario');
+        }
+    }
+
+    async setUserFavoriteRecipe(id, recipe){
+        try {
+            let user = await User.findById(id);
+            let favoriteRecipes = user.favorite;
+            let isFavorite = favoriteRecipes.includes(recipe);
+            if(isFavorite){
+                throw new Error('La receta ya se encuentra en favoritos');
+            }
+            user.favorite.push(recipe);
+            await user.save();
+            return user;
+        }
+        catch (err) {
+            console.error(err);
+            throw new Error('Error al actualizar al agregar receta al favorito del usuario');
+        }
+    }
+
+    // get recipes from favorite recipes
+    async getFavoriteRecipes(id){
+        try {
+            let userRecipes = await User.findById(id).populate('recipes');
+            if (!user) {
+                throw new Error('User not found');
+            }
+            return userRecipes.recipes;
+        } catch (err) {
+            console.error(err);
+            throw new Error('Error al obtener las recetas favoritas');
+        }
+    }
+
     async createUser(user){
         try {
             let isUserRegistered = await User.findOne({email: user.email});

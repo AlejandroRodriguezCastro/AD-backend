@@ -19,6 +19,35 @@ class UserController {
         }
     }
 
+    async deleteUserFavoriteRecipe(req, res) {
+        try {
+            const user = await UserService.deleteUserFavoriteRecipe(req.params.id, req.params.recipe);
+            return res.status(200).json(user);
+        } catch (err) {
+            console.log(err);
+            return res.status(500).json({ message: err.message });
+        }
+    }
+
+    async setUserFavoriteRecipe(req, res) {
+        try {
+            const user = await UserService.setUserFavoriteRecipe(req.params.id, req.params.recipe);
+            return res.status(200).json(user);
+        } catch (err) {
+            console.log(err);
+            return res.status(500).json({ message: err.message });
+        }
+    }
+
+    async getFavoriteRecipes(req, res) {
+        try {
+            const userRecipes = await UserService.getFavoriteRecipes(req.params.id);
+            return res.status(200).json(userRecipes);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     async createUser(req, res) {
         try {
             const user = await UserService.createUser(req.body);

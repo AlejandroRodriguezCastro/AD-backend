@@ -8,6 +8,12 @@ router.get('/', UserController.getUsers);
 
 router.get('/:id', UserController.getUserById);
 
+router.get('/favorite/:id', UserController.getFavoriteRecipes);
+
+router.post('/favorite/:id/:recipe', UserController.setUserFavoriteRecipe);
+
+router.delete('/favorite/:id/:recipe', UserController.deleteUserFavoriteRecipe);
+
 router.post('/',
     [
         check('username', 'El nombre es requerido').not().isEmpty(),
