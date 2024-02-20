@@ -1,6 +1,8 @@
 require('dotenv').config();
 const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
+const Recipe = require('../models/recipe.model');
+const Ingredient = require('../models/ingredient.model');
  
 class UserService{
     async getUsers(){
@@ -70,19 +72,24 @@ class UserService{
         }
     }
 
-    // get recipes from favorite recipes
     async getFavoriteRecipes(id){
         try {
-            let userRecipes = await User.findById(id).populate('recipes');
-            if (!user) {
-                throw new Error('User not found');
+            const user = await User.findById(id);
+            const favoriteRecipes = user.favorite;
+
+            let recipes = await Promise.all(favoriteRecipes.map(async recipe => {
+                let recipeData = await Recipe.findById(recipe).populate('ingredients', 'name quantity');
+                return recipeData;
             }
-            return userRecipes.recipes;
-        } catch (err) {
+            ));
+            return recipes;
+        }
+        catch (err) {
             console.error(err);
-            throw new Error('Error al obtener las recetas favoritas');
+            throw new Error('Error al obtener las recetas favoritas del usuario');
         }
     }
+
 
     async createUser(user){
         try {
