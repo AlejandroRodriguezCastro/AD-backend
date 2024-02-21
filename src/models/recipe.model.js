@@ -10,11 +10,19 @@ const recipeSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        ingredients: {
-            type: [mongoose.Schema.Types.ObjectId],
-            required: true,
-            ref: 'Ingredient',
-        },
+        ingredients: [
+            {
+                name: {
+                    type: String,
+                    required: true,
+                },
+                quantity: {
+                    type: Number,
+                    required: true,
+                }
+            },
+        
+        ],
         instructions: {
             type: [String],
             required: true,

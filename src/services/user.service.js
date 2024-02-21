@@ -2,8 +2,6 @@ require('dotenv').config();
 const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
 const Recipe = require('../models/recipe.model');
-const Ingredient = require('../models/ingredient.model');
- 
 class UserService{
     async getUsers(){
         try{
@@ -77,11 +75,7 @@ class UserService{
             const user = await User.findById(id);
             const favoriteRecipes = user.favorite;
 
-            let recipes = await Promise.all(favoriteRecipes.map(async recipe => {
-                let recipeData = await Recipe.findById(recipe).populate('ingredients', 'name quantity');
-                return recipeData;
-            }
-            ));
+            let recipes = await Recipe.find({_id: {$in: favoriteRecipes}});
             return recipes;
         }
         catch (err) {
