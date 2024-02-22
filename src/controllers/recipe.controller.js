@@ -45,7 +45,16 @@ class RecipeController {
             console.log(err);
         }
     }
-    
+
+    async getRecipeBySearch(req, res) {
+        try {
+            const recipe = await RecipeService.getRecipeBySearch(req.query);
+            return res.status(200).json(recipe);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     async updateRecipe(req, res) {
         try {
             const recipe = await RecipeService.updateRecipe(req.params.id, req.body);

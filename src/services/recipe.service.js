@@ -34,9 +34,56 @@ class RecipeService {
         }
     }
 
+    async getRecipesSortedByRating() {
+        try {
+            const recipes = await Recipe.find().sort({rating: -1});
+            return recipes;
+        }
+        catch (err) {
+            console.error(err);
+            throw new Error('Error al obtener la receta');
+        }
+    }
+
+    async getRecipeByTitle(title) {
+        try {
+            const recipes = await Recipe.find({title: {$regex: title, $options: 'i'}});
+            return recipes;
+        }
+        catch (err) {
+            console.error(err);
+            throw new Error('Error al obtener la receta');
+        }
+    }
+
+    async getRecipeByCategories(categories) {
+        try {
+            const recipes = await Recipe.find({categories: {$in: categories}});
+            return recipes;
+        }
+        catch (err) {
+            console.error(err);
+            throw new Error('Error al obtener la receta');
+        }
+    }
+
     async getRecipeByIngredient(ingredient) {
         try {
             const recipes = await Recipe.find({ingredients: {$elemMatch: {name: {$regex: ingredient, $options: 'i'}}}});
+            return recipes;
+        }
+        catch (err) {
+            console.error(err);
+            throw new Error('Error al obtener la receta');
+        }
+    }
+    
+    async getRecipeBySearch(query) {
+        try {
+            let title = query.title ? {title: {$regex: query.title, $options: 'i'}} : {};
+            let categories = query.categories ? {categories: {$in: query.categories}} : {};
+            let ingredients = query.ingredients ? {ingredients: {$elemMatch: {name: {$regex: query.ingredients, $options: 'i'}}}} : {};
+            const recipes = await Recipe.find({$and: [title, categories, ingredients]});
             return recipes;
         }
         catch (err) {

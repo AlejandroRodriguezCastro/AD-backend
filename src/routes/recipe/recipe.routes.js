@@ -12,6 +12,8 @@ router.get('/user/:id', RecipeController.getRecipeByUser);
 
 router.get('/ingredient/:ingredient', RecipeController.getRecipeByIngredient);
 
+router.get('/search/by', RecipeController.getRecipeBySearch);
+
 router.post('/',
     [
         check('title', 'El nombre es requerido').not().isEmpty(),
