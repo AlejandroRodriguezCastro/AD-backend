@@ -2,10 +2,14 @@ const Recipe = require('../models/recipe.model');
 const User = require('../models/user.model');
 
 class RecipeService {
-    async getRecipes() {
+    async getRecipes(page = 1, limit = 10) {
         try {
-            const recipes = await Recipe.find();
-            return recipes;
+            const recipes = await Recipe.find()
+                .limit(limit)
+                .skip((page-1) * limit)
+                .exec();
+            const totalCount = await Recipe.countDocuments();
+            return { recipes, totalPages: Math.ceil(totalCount / limit), currentPage: parseInt(page) };
         } catch (err) {
             console.error(err);
             throw new Error('Error al obtener las recetas');
@@ -23,10 +27,14 @@ class RecipeService {
         }
     }
     
-    async getRecipeByUser(id) {
+    async getRecipeByUser(id, page = 1, limit = 10) {
         try {
-            const recipe = await Recipe.find({user: id});
-            return recipe;
+            const recipes = await Recipe.find({user: id})
+                .limit(limit)
+                .skip((page-1) * limit)
+                .exec();
+            const totalCount = await Recipe.find({user: id}).countDocuments();
+            return { recipes, totalPages: Math.ceil(totalCount / limit), currentPage: parseInt(page) };
         }
         catch (err) {
             console.error(err);
@@ -34,10 +42,14 @@ class RecipeService {
         }
     }
 
-    async getRecipesSortedByRating() {
+    async getRecipesSortedByRating(page = 1, limit = 10) {
         try {
-            const recipes = await Recipe.find().sort({rating: -1});
-            return recipes;
+            const recipes = await Recipe.find().sort({rating: -1})
+                .limit(limit)
+                .skip((page-1) * limit)
+                .exec();
+            const totalCount = await Recipe.countDocuments();
+            return { recipes, totalPages: Math.ceil(totalCount / limit), currentPage: parseInt(page) };
         }
         catch (err) {
             console.error(err);
@@ -56,9 +68,9 @@ class RecipeService {
         }
     }
 
-    async getRecipeByCategories(categories) {
+    async getRecipeBycategory(category) {
         try {
-            const recipes = await Recipe.find({categories: {$in: categories}});
+            const recipes = await Recipe.find({category: {$in: category}});
             return recipes;
         }
         catch (err) {
@@ -78,13 +90,23 @@ class RecipeService {
         }
     }
     
-    async getRecipeBySearch(query) {
+    async getRecipeBySearch(query, page = 1, limit = 10) {
         try {
             let title = query.title ? {title: {$regex: query.title, $options: 'i'}} : {};
-            let categories = query.categories ? {categories: {$in: query.categories}} : {};
+            let category = query.category ? {category: {$in: query.category}} : {};
             let ingredients = query.ingredients ? {ingredients: {$elemMatch: {name: {$regex: query.ingredients, $options: 'i'}}}} : {};
-            const recipes = await Recipe.find({$and: [title, categories, ingredients]});
-            return recipes;
+            let order = query.order ? query.order : 'asc';
+            let sort = {};
+            if (query.sort) {
+                sort[query.sort] = order === 'asc' ? 1 : -1;
+            }
+            const recipes = await Recipe.find({$and: [title, category, ingredients]})
+                .sort(sort)
+                .limit(limit)
+                .skip((page-1) * limit)
+                .exec();
+            const totalCount = await Recipe.find({$and: [title, category, ingredients]}).countDocuments();
+            return { recipes, totalPages: Math.ceil(totalCount / limit), currentPage: parseInt(page) };
         }
         catch (err) {
             console.error(err);
