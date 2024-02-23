@@ -18,6 +18,8 @@ router.post('/',
 
 router.get('/:user/:recipe', LikeController.getLikeByUserAndRecipe);
 
+router.post('/:user/:recipe', LikeController.changeLikeByUserAndRecipe);
+
 router.put('/:id', LikeController.updateLike);
 
 router.delete('/:id', LikeController.deleteLike);

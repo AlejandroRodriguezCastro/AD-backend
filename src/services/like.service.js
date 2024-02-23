@@ -1,4 +1,5 @@
 const Like = require('../models/like.model');
+const Recipe = require('../models/recipe.model');
 
 class LikeService {
     async getLikes() {
@@ -25,6 +26,9 @@ class LikeService {
     async createLike(like) {
         try {
             let newLike = new Like(like);
+            let recipe = await Recipe.findById(like.recipe);
+            recipe.likes++;
+            recipe.rating = (recipe.score + like.rating ) / recipe.likes;
             await newLike.save();
             return newLike;
         } catch (err) {
@@ -46,6 +50,8 @@ class LikeService {
     async updateLike(id, like) {
         try {
             let updatedLike = await Like.findByIdAndUpdate(id, like, { new: true });
+            let recipe = await Recipe.findById(like.recipe);
+            recipe.rating = (recipe.score + like.rating) / recipe.likes;
             return updatedLike;
         }
         catch (err) {
@@ -56,6 +62,10 @@ class LikeService {
 
     async deleteLike(id) {
         try {
+            let like = await Like.findById(id);
+            let recipe = await Recipe.findById(like.recipe);
+            recipe.likes--;
+            recipe.rating = (recipe.score - like.rating) / recipe.likes;
             await Like.findByIdAndDelete(id);
             return;
         } catch (err) {

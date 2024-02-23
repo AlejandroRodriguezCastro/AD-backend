@@ -28,6 +28,15 @@ class LikeController {
         }
     }
 
+    async changeLikeByUserAndRecipe(req, res) {
+        try {
+            const newLike = await LikeService.createLike({ user: req.params.user, recipe: req.params.recipe, rating: req.body.rating});
+            return res.status(200).json(newLike);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     async getLikeByUserAndRecipe(req, res) {
         try {
             const like = await LikeService.getLikeByUserAndRecipe(req.params.user, req.params.recipe);
