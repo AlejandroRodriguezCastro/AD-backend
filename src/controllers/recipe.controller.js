@@ -3,8 +3,10 @@ const RecipeService = require('../services/recipe.service');
 class RecipeController {
     async getRecipes(req, res) {
         try {
-            const recipes = await RecipeService.getRecipes();
-            return res.status(200).json(recipes);
+            const page = req.query.page;
+            const limit = req.query.limit;
+            const { recipes, totalPages, currentPage } = await RecipeService.getRecipes(page, limit);
+            return res.status(200).json({ recipes, totalPages, currentPage });
         } catch (err) {
             console.log(err);
         }
@@ -21,8 +23,10 @@ class RecipeController {
 
     async getRecipeByUser(req, res) {
         try {
-            const recipe = await RecipeService.getRecipeByUser(req.params.id);
-            return res.status(200).json(recipe);
+            const page = req.query.page;
+            const limit = req.query.limit;
+            const { recipes, totalPages, currentPage } = await RecipeService.getRecipeByUser(req.params.id, page, limit);
+            return res.status(200).json({ recipes, totalPages, currentPage });
         } catch (err) {
             console.log(err);
         }
@@ -48,8 +52,10 @@ class RecipeController {
 
     async getRecipeBySearch(req, res) {
         try {
-            const recipe = await RecipeService.getRecipeBySearch(req.query);
-            return res.status(200).json(recipe);
+            const page = req.query.page;
+            const limit = req.query.limit;
+            const { recipes, totalPages, currentPage } = await RecipeService.getRecipeBySearch(req.query, page, limit);
+            return res.status(200).json({ recipes, totalPages, currentPage });
         } catch (err) {
             console.log(err);
         }

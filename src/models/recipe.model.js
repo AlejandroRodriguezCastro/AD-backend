@@ -75,7 +75,11 @@ const recipeSchema = new mongoose.Schema(
         video: {
             type: String,
             required: true,
-        }
+        },
+        score: {
+            type: Number,
+            required: true,
+        },
     },
     {
         timestamps: true,
