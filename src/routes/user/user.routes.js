@@ -10,9 +10,7 @@ router.get('/:id', UserController.getUserById);
 
 router.get('/favorite/:id', UserController.getFavoriteRecipes);
 
-router.post('/favorite/:id/:recipe', UserController.setUserFavoriteRecipe);
-
-router.delete('/favorite/:id/:recipe', UserController.deleteUserFavoriteRecipe);
+router.post('/favorite/:id/:recipe', UserController.changeUserFavoriteRecipe);
 
 router.post('/',
     [

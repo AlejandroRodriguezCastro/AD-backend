@@ -19,19 +19,9 @@ class UserController {
         }
     }
 
-    async deleteUserFavoriteRecipe(req, res) {
+    async changeUserFavoriteRecipe(req, res) {
         try {
-            const user = await UserService.deleteUserFavoriteRecipe(req.params.id, req.params.recipe);
-            return res.status(200).json(user);
-        } catch (err) {
-            console.log(err);
-            return res.status(500).json({ message: err.message });
-        }
-    }
-
-    async setUserFavoriteRecipe(req, res) {
-        try {
-            const user = await UserService.setUserFavoriteRecipe(req.params.id, req.params.recipe);
+            const user = await UserService.changeUserFavoriteRecipe(req.params.id, req.params.recipe);
             return res.status(200).json(user);
         } catch (err) {
             console.log(err);

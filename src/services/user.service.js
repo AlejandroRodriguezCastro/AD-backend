@@ -34,31 +34,13 @@ class UserService{
         }
     }
 
-    async deleteUserFavoriteRecipe(id, recipe){
-        try {
-            let user = await User.findById(id);
-            let favoriteRecipes = user.favorite;
-            let isFavorite = favoriteRecipes.includes(recipe);
-            if(!isFavorite){
-                throw new Error('La receta no se encuentra en favoritos');
-            }
-            user.favorite.pop(recipe);
-            await user.save();
-            return user;
-        }
-        catch (err) {
-            console.error(err);
-            throw new Error('Error al actualizar al agregar receta al favorito del usuario');
-        }
-    }
-
-    async setUserFavoriteRecipe(id, recipe){
+    async changeUserFavoriteRecipe(id, recipe){
         try {
             let user = await User.findById(id);
             let favoriteRecipes = user.favorite;
             let isFavorite = favoriteRecipes.includes(recipe);
             if(isFavorite){
-                throw new Error('La receta ya se encuentra en favoritos');
+                user.favorite.pop(recipe);
             }
             user.favorite.push(recipe);
             await user.save();
