@@ -66,11 +66,11 @@ const recipeSchema = new mongoose.Schema(
         },
         rating: {
             type: Number,
-            required: true,
+            required: false,
         },
         like: {
             type: Number,
-            required: true,
+            required: false,
         },
         video: {
             type: String,
@@ -78,7 +78,7 @@ const recipeSchema = new mongoose.Schema(
         },
         score: {
             type: Number,
-            required: true,
+            required: false,
         },
     },
     {
