@@ -42,7 +42,9 @@ class UserService{
             if(isFavorite){
                 user.favorite.pop(recipe);
             }
-            user.favorite.push(recipe);
+            else{
+                user.favorite.push(recipe);
+            }
             await user.save();
             return user;
         }
