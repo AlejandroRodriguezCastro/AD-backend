@@ -19,7 +19,7 @@ router.get('/search/by', RecipeController.getRecipeBySearch);
 
 router.post('/recipeWithPhoto',
     [
-        upload.array('image', 5),
+        upload.array('photo', 5),
         convertFormDataToJson,
         validateRecipe,
         checkFields
