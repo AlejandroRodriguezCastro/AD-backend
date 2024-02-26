@@ -9,6 +9,7 @@ const {dbConnection} = require('./db/config');
 
 const app = express();
 
+// For development
 app.use(morgan('dev'));
 
 // secure apps by setting various HTTP headers
