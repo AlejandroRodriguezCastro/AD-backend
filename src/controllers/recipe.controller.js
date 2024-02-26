@@ -1,4 +1,6 @@
 const RecipeService = require('../services/recipe.service');
+const uploadImageToCloudinary = require('../utils/cloudinary');
+const fs = require('fs');
 
 class RecipeController {
     async getRecipes(req, res) {
@@ -27,6 +29,24 @@ class RecipeController {
             const limit = req.query.limit;
             const { recipes, totalPages, currentPage } = await RecipeService.getRecipeByUser(req.params.id, page, limit);
             return res.status(200).json({ recipes, totalPages, currentPage });
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async createRecipeWithPhoto(req, res) {
+        try {
+            const imageUrl = await Promise.all(req.files.map(async file => {
+                const imageUrl = await uploadImageToCloudinary(file.path);
+                return imageUrl;
+            }));
+            req.files.map(file => {
+                fs.unlinkSync(file.path);
+            }
+            );
+            req.body.photo = imageUrl;
+            const recipe = await RecipeService.createRecipe(req.body);
+            return res.status(200).json(recipe);
         } catch (err) {
             console.log(err);
         }
