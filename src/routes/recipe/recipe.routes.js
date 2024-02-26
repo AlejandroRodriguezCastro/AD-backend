@@ -4,6 +4,8 @@ const RecipeController = require('../../controllers/recipe.controller');
 const checkFields = require('../../middlewares/validateFields');
 const validateRecipe = require('../../middlewares/validateRecipe');
 const { check } = require('express-validator');
+const upload = require('../../middlewares/imageUploader');
+const convertFormDataToJson = require('../../middlewares/convertFormDataToJson');
 
 router.get('/', RecipeController.getRecipes);
 
@@ -14,6 +16,15 @@ router.get('/user/:id', RecipeController.getRecipeByUser);
 router.get('/ingredient/:ingredient', RecipeController.getRecipeByIngredient);
 
 router.get('/search/by', RecipeController.getRecipeBySearch);
+
+router.post('/recipeWithPhoto',
+    [
+        upload.array('image', 5),
+        convertFormDataToJson,
+        validateRecipe,
+        checkFields
+    ],
+    RecipeController.createRecipeWithPhoto);
 
 router.post('/',
     [
