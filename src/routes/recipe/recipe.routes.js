@@ -21,7 +21,7 @@ router.post('/recipeWithPhoto',
     [
         upload.array('photo', 5),
         convertFormDataToJson,
-        validateRecipe,
+        //validateRecipe,
         checkFields
     ],
     RecipeController.createRecipeWithPhoto);
