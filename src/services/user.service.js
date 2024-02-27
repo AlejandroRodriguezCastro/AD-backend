@@ -13,6 +13,34 @@ class UserService{
         }
     }
 
+    async getUserByEmail(email){
+        try {
+            let user = await User.findOne({email: email});
+            return user;
+        } catch (err) {
+            console.error(err);
+            throw new Error('Error al obtener el usuario');
+        }
+    }
+
+    async loginByEmail(user){
+        try {
+            let userRegistered = await User.findOne({email: user.email});
+            if(userRegistered){
+                return userRegistered;
+            }
+            else{
+                let newUser = new User(user);
+                await newUser.save();
+                return newUser;
+            }
+
+        } catch (err) {
+            console.error(err);
+            throw new Error('Error al obtener el usuario');
+        }
+    }
+
     async getUserById(id){
         try {
             let user = await User.findById(id);

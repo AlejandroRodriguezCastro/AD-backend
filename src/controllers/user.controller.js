@@ -10,6 +10,25 @@ class UserController {
         }
     }
 
+    async getUserByEmail(req, res) {
+        try {
+            const user = await UserService.getUserByEmail(req.params.email);
+            return res.status(200).json(user);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async loginByEmail(req, res) {
+        try {
+            const user = await UserService.loginByEmail(req.body);
+            return res.status(200).json(user);
+        } catch (err) {
+            console.log(err);
+            return res.status(500).json({ message: err.message });
+        }
+    }
+
     async getUserById(req, res) {
         try {
             const user = await UserService.getUserById(req.params.id);

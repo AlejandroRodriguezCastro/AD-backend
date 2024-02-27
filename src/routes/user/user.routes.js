@@ -12,6 +12,8 @@ router.get('/favorite/:id', UserController.getFavoriteRecipes);
 
 router.post('/favorite/:id/:recipe', UserController.changeUserFavoriteRecipe);
 
+router.post('/loginByMail', UserController.loginByEmail);
+
 router.post('/',
     [
         check('username', 'El nombre es requerido').not().isEmpty(),

@@ -2,7 +2,15 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema(
     {
-        username: {
+        givenName: {
+            type: String,
+            required: false,
+        },
+        familyName: {
+            type: String,
+            required: false,
+        },
+        name: {
             type: String,
             required: false,
         },
@@ -26,7 +34,7 @@ const userSchema = new mongoose.Schema(
             required: false,
             ref: 'Recipe',
         },
-        avatar: {
+        photo: {
             type: String,
             required: false,
         },
