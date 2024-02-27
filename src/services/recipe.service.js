@@ -117,13 +117,26 @@ class RecipeService {
     async createRecipe(recipe) {
         try {
             let newRecipe = new Recipe(recipe);
-            let user = await User.findById(recipe.user);
-            user.recipe.push(newRecipe);
             await newRecipe.save();
             return newRecipe;
         } catch (err) {
             console.error(err);
             throw new Error('Error al crear la receta');
+        }
+    }
+
+    async patchRecipe(id, recipe) {
+        try {
+            let patchedRecipe = await Recipe.findByIdAndUpdate(
+                id,
+                { $set: recipe },
+                { new: true, useFindAndModify: false }
+            );
+            return patchedRecipe;
+        }
+        catch (err) {
+            console.error(err);
+            throw new Error('Error al actualizar la receta');
         }
     }
 
@@ -145,9 +158,6 @@ class RecipeService {
     async deleteRecipe(id) {
         try {
             await Recipe.findByIdAndDelete(id);
-            const user = await User.findOne({recipes: id});
-            user.recipe.pop(id);
-            await user.save();
             return;
         } catch (err) {
             console.error(err);

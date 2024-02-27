@@ -52,6 +52,24 @@ class RecipeController {
         }
     }
 
+    async patchRecipeWithPhoto(req, res) {
+        try {
+            const imageUrl = await Promise.all(req.files.map(async file => {
+                const imageUrl = await uploadImageToCloudinary(file.path);
+                return imageUrl;
+            }));
+            req.files.map(file => {
+                fs.unlinkSync(file.path);
+            }
+            );
+            req.body.photo = imageUrl;
+            const recipe = await RecipeService.patchRecipe(req.params.id, req.body);
+            return res.status(200).json(recipe);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     async createRecipe(req, res) {
         try {
             const recipe = await RecipeService.createRecipe(req.body);

@@ -26,6 +26,15 @@ router.post('/recipeWithPhoto',
     ],
     RecipeController.createRecipeWithPhoto);
 
+// Implement the patch of a recpie with photo
+router.patch('/recipeWithPhoto/:id',
+    [
+        upload.array('photo', 5),
+        convertFormDataToJson,
+        checkFields
+    ],
+    RecipeController.patchRecipeWithPhoto);
+
 router.post('/',
     [
         validateRecipe,
