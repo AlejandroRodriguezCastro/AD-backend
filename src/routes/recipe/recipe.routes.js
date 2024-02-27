@@ -3,6 +3,7 @@ const router = express.Router();
 const RecipeController = require('../../controllers/recipe.controller');
 const checkFields = require('../../middlewares/validateFields');
 const validateRecipe = require('../../middlewares/validateRecipe');
+const validateRecipePatch = require('../../middlewares/validateRecipePatch');
 const { check } = require('express-validator');
 const upload = require('../../middlewares/imageUploader');
 const convertFormDataToJson = require('../../middlewares/convertFormDataToJson');
@@ -21,16 +22,16 @@ router.post('/recipeWithPhoto',
     [
         upload.array('photo', 5),
         convertFormDataToJson,
-        //validateRecipe,
+        validateRecipe,
         checkFields
     ],
     RecipeController.createRecipeWithPhoto);
 
-// Implement the patch of a recpie with photo
 router.patch('/recipeWithPhoto/:id',
     [
         upload.array('photo', 5),
         convertFormDataToJson,
+        validateRecipePatch,
         checkFields
     ],
     RecipeController.patchRecipeWithPhoto);
