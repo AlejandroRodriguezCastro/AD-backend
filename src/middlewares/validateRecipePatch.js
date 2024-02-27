@@ -1,6 +1,6 @@
 const { check } = require('express-validator');
 
-const validateRecipe = [
+const validateRecipePatch = [
     check('title', 'El nombre es requerido').isString(),
     check('description', 'La descripción es requerida').isString(),
     check('instructions', 'La preparación es requerida').isArray(),
@@ -21,4 +21,4 @@ const validateRecipe = [
     })
 ];
 
-module.exports = validateRecipe;
+module.exports = validateRecipePatch;
