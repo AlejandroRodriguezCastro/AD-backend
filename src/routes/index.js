@@ -4,6 +4,7 @@ const statusRoute = require('./status/status.routes');
 const likeRoute = require('./likes/like.routes');
 const recipeRoute = require('./recipe/recipe.routes');
 const userRoute = require('./user/user.routes');
+const authRoute = require('./auth/auth.routes');
 
 const defaultRoutes = [
     {
@@ -21,6 +22,10 @@ const defaultRoutes = [
     {
         path: '/users',
         route: userRoute,
+    },
+    {
+        path: '/auth',
+        route: authRoute,
     }
 ];
 
