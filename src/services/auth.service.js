@@ -24,9 +24,8 @@ class AuthService {
             const response = await axios.get(
                 `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${token}`
             );
-            // check if response has email field
             if (!response.data.email) {
-                throw new Error("Error al obtener información del token");
+                throw new Error("Token inválido");
             }
             return response.data;
         } catch (err) {
