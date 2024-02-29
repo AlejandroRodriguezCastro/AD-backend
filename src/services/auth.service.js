@@ -24,6 +24,10 @@ class AuthService {
             const response = await axios.get(
                 `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${token}`
             );
+            // check if response has email field
+            if (!response.data.email) {
+                throw new Error("Error al obtener información del token");
+            }
             return response.data;
         } catch (err) {
             console.error(err);
@@ -51,7 +55,7 @@ class AuthService {
             return newUser;
         } catch (err) {
             console.error(err);
-            throw new Error("Error al iniciar sesión");
+            throw new Error("Error al iniciar sesión: " + err.message);
         }
     }
 }
