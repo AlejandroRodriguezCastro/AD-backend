@@ -12,7 +12,7 @@ class AuthController {
 
     async login(req, res) {
         try {
-            const user = await AuthService.login(req.body.id_token);
+            const user = await AuthService.login(req.body.idToken);
             return res.status(200).json(user);
         } catch (err) {
             console.log(err);
